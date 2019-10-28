@@ -24,7 +24,7 @@ class ConvNet(nn.Module):
         self.conv5 = nn.Conv2d(64, 128, padding=(2,2), kernel_size=5)
         self.conv6 = nn.Conv2d(128, 128, padding=(1,1), kernel_size=3)
         self.norm5 = nn.BatchNorm2d(128)
-        #self.norm6 = nn.BatchNorm2d(128)
+        self.norm6 = nn.BatchNorm2d(128)
         self.fc1 = nn.Linear(2048, 512)
         self.fc2 = nn.Linear(512, nclasses)
 
