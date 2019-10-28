@@ -12,6 +12,7 @@ import torchvision.datasets as datasets
 from data import initialize_data # data.py in the same folder
 from model import Net, SpatialNet
 from googLeNet import GoogLeNet
+from conv_net import ConvNet
 
 parser = argparse.ArgumentParser(description='PyTorch GTSRB evaluation script')
 parser.add_argument('--data', type=str, default='data', metavar='D',
@@ -26,7 +27,8 @@ args = parser.parse_args()
 state_dict = torch.load(args.model)
 #model = Net()
 #model = GoogLeNet()
-model = SpatialNet()
+#model = SpatialNet()
+model = ConvNet()
 #model = model.cuda()
 
 model.load_state_dict(state_dict)
