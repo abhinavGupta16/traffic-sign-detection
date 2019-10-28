@@ -163,8 +163,10 @@ for epoch in range(1, args.epochs + 1):
 
 plt.plot(tran_arr, c='b', label='Training Loss')
 plt.plot(val_arr, c='r', label='Validation Loss')
+plt.legend()
 plt.savefig('loss.png')
 plt.figure()
 plt.plot(tran_acc_arr, c='b', label='Training Accuracy')
 plt.plot(val_acc_arr, c='r', label='Validation Accuracy')
+plt.legend()
 plt.savefig('accuracy.png')
