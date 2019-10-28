@@ -153,7 +153,7 @@ class SpatialNet(nn.Module):
         self.norm2 = nn.BatchNorm2d(150)
         self.conv3 = nn.Conv2d(150, 250, kernel_size=3)
         self.norm3 = nn.BatchNorm2d(250)
-        self.conv_drop = nn.Dropout2d()
+        self.dropout = nn.Dropout2d()
         self.fc1 = nn.Linear(250*2*2, 350)
         self.fc2 = nn.Linear(350, nclasses)
 
@@ -166,7 +166,7 @@ class SpatialNet(nn.Module):
             nn.ReLU(True)
             )
 
-        # Regressor for the 3 * 2 affine matrix
+        
         self.fc_loc = nn.Sequential(
             nn.Linear(10 * 4 * 4, 32),
             nn.ReLU(True),
@@ -178,7 +178,7 @@ class SpatialNet(nn.Module):
         self.fc_loc[2].bias.data.copy_(torch.tensor([1, 0, 0, 0, 1, 0], dtype=torch.float))
 
 
-    # Spatial transformer network forward function
+    # STN forward function
     def stn(self, x):
         xs = self.localization(x)
         xs = xs.view(-1, 10 * 4 * 4)
@@ -196,17 +196,19 @@ class SpatialNet(nn.Module):
         x = F.relu(self.conv1(x))
         x = F.max_pool2d(x,2)
         x = self.norm1(x)
-        x = self.conv_drop(x)
+        x = self.dropout(x)
 
+        # CNN Layer
         x = F.relu(self.conv2(x))
         x = F.max_pool2d(x,2)
         x = self.norm2(x)
-        x = self.conv_drop(x)
+        x = self.dropout(x)
         
+        #CNN Layer
         x = F.relu(self.conv3(x))
         x = F.max_pool2d(x,2)
         x = self.norm3(x)
-        x = self.conv_drop(x)
+        x = self.dropout(x)
         
         x = x.view(-1, 250*2*2)
         
