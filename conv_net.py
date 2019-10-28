@@ -9,24 +9,24 @@ class ConvNet(nn.Module):
         super(ConvNet, self).__init__()
         
         # CNN layers
-        self.conv1 = nn.Conv2d(3, 32, padding=(2,2), kernel_size=5)
-        self.conv2 = nn.Conv2d(32, 32, padding=(1,1), kernel_size=3)
-        self.norm1 = nn.BatchNorm2d(32)
-        self.norm2 = nn.BatchNorm2d(32)
+        self.conv1 = nn.Conv2d(3, 128, padding=(2,2), kernel_size=5)
+        self.conv2 = nn.Conv2d(128, 128, kernel_size=3)
+        self.norm1 = nn.BatchNorm2d(128)
+        self.norm2 = nn.BatchNorm2d(128)
         # self.drop1 = nn.Dropout2d(0.2)
 
-        self.conv3 = nn.Conv2d(32, 64, padding=(2,2), kernel_size=5)
-        self.conv4 = nn.Conv2d(64, 64, padding=(1,1), kernel_size=3)
-        self.norm3 = nn.BatchNorm2d(64)
-        self.norm4 = nn.BatchNorm2d(64)
+        self.conv3 = nn.Conv2d(128, 256, padding=(2,2), kernel_size=5)
+        self.conv4 = nn.Conv2d(256, 256, kernel_size=3)
+        self.norm3 = nn.BatchNorm2d(128)
+        self.norm4 = nn.BatchNorm2d(512)
         # self.drop2 = nn.Dropout2d(0.2)
         
-        self.conv5 = nn.Conv2d(64, 128, padding=(2,2), kernel_size=5)
-        self.conv6 = nn.Conv2d(128, 128, padding=(1,1), kernel_size=3)
-        self.norm5 = nn.BatchNorm2d(128)
-        self.norm6 = nn.BatchNorm2d(128)
-        self.fc1 = nn.Linear(2048, 512)
-        self.fc2 = nn.Linear(512, nclasses)
+        self.conv5 = nn.Conv2d(256, 512,  padding=(2,2), kernel_size=5)
+        self.conv6 = nn.Conv2d(512, 512, kernel_size=3)
+        self.norm5 = nn.BatchNorm2d(512)
+        self.norm6 = nn.BatchNorm2d(512)
+        self.fc1 = nn.Linear(512*6*6, 1024)
+        self.fc2 = nn.Linear(1024, nclasses)
 
         self.localization = nn.Sequential(
             nn.Conv2d(3, 8, kernel_size=7),
@@ -84,10 +84,10 @@ class ConvNet(nn.Module):
         x = self.norm5(x)
         x = F.relu(self.conv6(x))
         x = self.norm6(x)
-        x = F.max_pool2d(x,2)
+        # x = F.max_pool2d(x,2)
         x = F.dropout2d(x, p=0.5, training=self.training)
         
-        x = x.view(-1, 2048)
+        x = x.view(-1, 512*6*6)
         
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
