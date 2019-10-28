@@ -27,7 +27,7 @@ data_transforms = transforms.Compose([
 ])
 
 # Resize, normalize and jitter image brightness
-data_jitter_brightness = transforms.Compose([
+jitter_brightness = transforms.Compose([
 	transforms.Resize((32, 32)),
     transforms.ColorJitter(brightness=5),
     transforms.ToTensor(),
@@ -35,7 +35,7 @@ data_jitter_brightness = transforms.Compose([
 ])
 
 # Resize, normalize and jitter image saturation
-data_jitter_saturation = transforms.Compose([
+jitter_saturation = transforms.Compose([
 	transforms.Resize((32, 32)),
     transforms.ColorJitter(saturation=5),
     transforms.ToTensor(),
@@ -43,7 +43,7 @@ data_jitter_saturation = transforms.Compose([
 ])
 
 # Resize, normalize and jitter image contrast
-data_jitter_contrast = transforms.Compose([
+jitter_contrast = transforms.Compose([
 	transforms.Resize((32, 32)),
     transforms.ColorJitter(contrast=5),
     transforms.ToTensor(),
@@ -51,7 +51,7 @@ data_jitter_contrast = transforms.Compose([
 ])
 
 # Resize, normalize and jitter image hues
-data_jitter_hue = transforms.Compose([
+jitter_hue = transforms.Compose([
 	transforms.Resize((32, 32)),
     transforms.ColorJitter(hue=0.4),
     transforms.ToTensor(),
@@ -59,7 +59,7 @@ data_jitter_hue = transforms.Compose([
 ])
 
 # Resize, normalize and rotate image
-data_rotate = transforms.Compose([
+rotate = transforms.Compose([
 	transforms.Resize((32, 32)),
     transforms.RandomRotation(15),
     transforms.ToTensor(),
@@ -67,7 +67,7 @@ data_rotate = transforms.Compose([
 ])
 
 # Resize, normalize and flip image horizontally and vertically
-data_hvflip = transforms.Compose([
+hvflip = transforms.Compose([
 	transforms.Resize((32, 32)),
     transforms.RandomHorizontalFlip(1),
     transforms.RandomVerticalFlip(1),
@@ -76,7 +76,7 @@ data_hvflip = transforms.Compose([
 ])
 
 # Resize, normalize and flip image horizontally
-data_hflip = transforms.Compose([
+hflip = transforms.Compose([
 	transforms.Resize((32, 32)),
     transforms.RandomHorizontalFlip(1),
     transforms.ToTensor(),
@@ -84,7 +84,7 @@ data_hflip = transforms.Compose([
 ])
 
 # Resize, normalize and flip image vertically
-data_vflip = transforms.Compose([
+vflip = transforms.Compose([
 	transforms.Resize((32, 32)),
     transforms.RandomVerticalFlip(1),
     transforms.ToTensor(),
@@ -92,7 +92,7 @@ data_vflip = transforms.Compose([
 ])
 
 # Resize, normalize and shear image
-data_shear = transforms.Compose([
+shear = transforms.Compose([
 	transforms.Resize((32, 32)),
     transforms.RandomAffine(degrees = 15,shear=2),
     transforms.ToTensor(),
@@ -100,7 +100,7 @@ data_shear = transforms.Compose([
 ])
 
 # Resize, normalize and translate image
-data_translate = transforms.Compose([
+translate = transforms.Compose([
 	transforms.Resize((32, 32)),
     transforms.RandomAffine(degrees = 15,translate=(0.1,0.1)),
     transforms.ToTensor(),
@@ -108,7 +108,7 @@ data_translate = transforms.Compose([
 ])
 
 # Resize, normalize and crop image 
-data_center = transforms.Compose([
+center = transforms.Compose([
 	transforms.Resize((36, 36)),
     transforms.CenterCrop(32),
     transforms.ToTensor(),
@@ -116,7 +116,7 @@ data_center = transforms.Compose([
 ])
 
 # Resize, normalize and convert image to grayscale
-data_grayscale = transforms.Compose([
+grayscale = transforms.Compose([
 	transforms.Resize((32, 32)),
     transforms.Grayscale(num_output_channels=3),
     transforms.ToTensor(),

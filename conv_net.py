@@ -87,7 +87,7 @@ class ConvNet(nn.Module):
         # x = F.max_pool2d(x,2)
         x = F.dropout2d(x, p=0.5, training=self.training)
         
-        x = x.view(-1, 512*6*6)
+        x = x.view(-1, 512*4*4)
         
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
