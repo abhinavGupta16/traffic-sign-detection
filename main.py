@@ -7,6 +7,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.autograd import Variable
 import numpy as np
+import matplotlib.pyplot as plt
 #import focal_loss
 #from focal_loss import FocalLoss
 
@@ -103,17 +104,24 @@ scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer,'min',patience=3,fact
 
 def train(epoch):
     model.train()
+    correct = 0
+    train_loss = 0
     for batch_idx, (data, target) in enumerate(train_loader):
+        batch_num = batch_idx+1
         data, target = Variable(data).cuda(), Variable(target).cuda()
         optimizer.zero_grad()
         output = model(data)
-        loss = F.cross_entropy(output, target)
+        pred = output.data.max(1, keepdim=True)[1] # get the index of the max log-probability
+        correct += pred.eq(target.data.view_as(pred)).cpu().sum()
+        loss = F.cross_entropy(output, target).cuda()
+        train_loss += loss.item()
         loss.backward()
         optimizer.step()
-        if batch_idx % args.log_interval == 0:
+        if batch_num % args.log_interval == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                epoch, batch_idx * len(data), len(train_loader.dataset),
-                100. * batch_idx / len(train_loader), loss.item()))
+                epoch, batch_num * len(data), len(train_loader.dataset),
+                100. * batch_num / len(train_loader), loss.item()))
+    return 100. * correct / len(train_loader.dataset) ,train_loss / len(train_loader.dataset)
 
 def validation():
     model.eval()
@@ -131,11 +139,32 @@ def validation():
     print('\nValidation set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         validation_loss, correct, len(val_loader.dataset),
         100. * correct / len(val_loader.dataset)))
+    return 100. * correct / len(val_loader.dataset), validation_loss
 
-
+# step=10
+tran_arr=[]
+val_arr=[]
+tran_acc_arr=[]
+val_acc_arr=[]
 for epoch in range(1, args.epochs + 1):
-    train(epoch)
-    validation()
+    tran_acc, tran_loss = train(epoch)
+    val_acc, val_loss = validation()
+    # if epoch % step :
+    # print("train: " , tran_loss)
+    # print("val:" , val)
+    trans_arr.append(tran_loss)
+    val_arr.append(val_loss)
+    tran_acc_arr.append(tran_acc)
+    val_acc_arr.append(val_acc)
     model_file = 'model_' + str(epoch) + '.pth'
     torch.save(model.state_dict(), model_file)
     print('\nSaved model to ' + model_file + '. You can run `python evaluate.py --model' + model_file + '` to generate the Kaggle formatted csv file')
+
+
+plt.plot(tran_arr.data.tolist(), c='b', label='Training Loss')
+plt.plot(val_arr.data.tolist(), c='r', label='Validation Loss')
+plt.savefig('loss.png')
+plt.figure()
+plt.plot(tran_acc_arr.data.tolist(), c='b', label='Training Accuracy')
+plt.plot(val_acc_arr.data.tolist(), c='r', label='Validation Accuracy')
+plt.savefig('accuracy.png')
