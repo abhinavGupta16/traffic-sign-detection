@@ -97,7 +97,7 @@ if args.checkpoint is not None:
 model = model.cuda()
 #optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 optimizer = optim.Adam(model.parameters(), lr=args.lr)
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer,'min',patience=5,factor=0.2,verbose=True)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer,'min',patience=3,factor=0.1,verbose=True)
 #loss = FocalLoss(class_num = 43, gamma=1.5, size_average = False)
 
 
