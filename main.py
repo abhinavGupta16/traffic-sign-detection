@@ -152,7 +152,7 @@ for epoch in range(1, args.epochs + 1):
     # if epoch % step :
     # print("train: " , tran_loss)
     # print("val:" , val)
-    trans_arr.append(tran_loss)
+    tran_arr.append(tran_loss)
     val_arr.append(val_loss)
     tran_acc_arr.append(tran_acc)
     val_acc_arr.append(val_acc)
@@ -161,10 +161,10 @@ for epoch in range(1, args.epochs + 1):
     print('\nSaved model to ' + model_file + '. You can run `python evaluate.py --model' + model_file + '` to generate the Kaggle formatted csv file')
 
 
-plt.plot(tran_arr.data.tolist(), c='b', label='Training Loss')
-plt.plot(val_arr.data.tolist(), c='r', label='Validation Loss')
+plt.plot(tran_arr, c='b', label='Training Loss')
+plt.plot(val_arr, c='r', label='Validation Loss')
 plt.savefig('loss.png')
 plt.figure()
-plt.plot(tran_acc_arr.data.tolist(), c='b', label='Training Accuracy')
-plt.plot(val_acc_arr.data.tolist(), c='r', label='Validation Accuracy')
+plt.plot(tran_acc_arr, c='b', label='Training Accuracy')
+plt.plot(val_acc_arr, c='r', label='Validation Accuracy')
 plt.savefig('accuracy.png')
