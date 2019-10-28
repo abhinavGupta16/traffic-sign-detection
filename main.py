@@ -70,9 +70,12 @@ print(args.lr)
 ### Neural Network and Optimizer
 # We define neural net in model.py so that it can be reused by the evaluate.py script
 
-from model import Net, SpatialNet
+#from model import Net, SpatialNet
 #model = Net()
-model = SpatialNet()
+#model = SpatialNet()
+
+from conv_net import ConvNet
+model = ConvNet()
 
 #from model import VGG, VGG19
 #model = VGG(VGG19)
@@ -94,7 +97,7 @@ if args.checkpoint is not None:
 model = model.cuda()
 #optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
 optimizer = optim.Adam(model.parameters(), lr=args.lr)
-#scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min',patience=5,factor=0.5,verbose=True)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer,'min',patience=5,factor=0.2,verbose=True)
 #loss = FocalLoss(class_num = 43, gamma=1.5, size_average = False)
 
 
@@ -124,7 +127,7 @@ def validation():
         correct += pred.eq(target.data.view_as(pred)).cpu().sum()
 
     validation_loss /= len(val_loader.dataset)
-    #scheduler.step(np.around(validation_loss,2))
+    scheduler.step(np.around(validation_loss,2))
     print('\nValidation set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         validation_loss, correct, len(val_loader.dataset),
         100. * correct / len(val_loader.dataset)))
