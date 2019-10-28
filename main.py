@@ -39,7 +39,7 @@ args = parser.parse_args()
 #device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 ### Data Initialization and Loading
-from data import initialize_data, data_transforms, train_transforms, jitter_hue,jitter_brightness,jitter_saturation,jitter_contrast,rotate,hvflip,shear,translate,center,hflip,vflip # data.py in the same folder
+from data import initialize_data, data_transforms, train_transforms, jitter_hue,jitter_brightness,jitter_saturation,jitter_contrast,rotate,hvflip,shear,translate,center,hflip,vflip,grayscale # data.py in the same folder
 initialize_data(args.data) # extracts the zip files, makes a validation set
 
 train_loader = torch.utils.data.DataLoader(
