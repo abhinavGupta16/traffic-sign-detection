@@ -17,15 +17,15 @@ class ConvNet(nn.Module):
 
         self.conv3 = nn.Conv2d(128, 256, padding=(2,2), kernel_size=5)
         self.conv4 = nn.Conv2d(256, 256, kernel_size=3)
-        self.norm3 = nn.BatchNorm2d(128)
-        self.norm4 = nn.BatchNorm2d(512)
+        self.norm3 = nn.BatchNorm2d(256)
+        self.norm4 = nn.BatchNorm2d(256)
         # self.drop2 = nn.Dropout2d(0.2)
         
         self.conv5 = nn.Conv2d(256, 512,  padding=(2,2), kernel_size=5)
         self.conv6 = nn.Conv2d(512, 512, kernel_size=3)
         self.norm5 = nn.BatchNorm2d(512)
         self.norm6 = nn.BatchNorm2d(512)
-        self.fc1 = nn.Linear(512*6*6, 1024)
+        self.fc1 = nn.Linear(512*4*4, 1024)
         self.fc2 = nn.Linear(1024, nclasses)
 
         self.localization = nn.Sequential(
