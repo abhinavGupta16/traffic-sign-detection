@@ -64,15 +64,15 @@ class ConvNet(nn.Module):
         x = self.stn(x)
 
         # Perform forward pass
-        x = F.leaky_relu(self.conv1(x))
+        x = F.relu(self.conv1(x))
         x = self.norm1(x)
-        x = F.leaky_relu(self.conv2(x))
+        x = F.relu(self.conv2(x))
         x = self.norm2(x)
         x = F.max_pool2d(x,2)
         # x = F.dropout2d(x, p=0.2, training=self.training)
         #print(x.shape)
 
-        x = F.leaky_relu(self.conv3(x))
+        x = F.relu(self.conv3(x))
         x = self.norm3(x)
         x = F.relu(self.conv4(x))
         x = self.norm4(x)
@@ -80,7 +80,7 @@ class ConvNet(nn.Module):
         # x = F.dropout2d(x, p=0.2, training=self.training)
         #print(x.shape)
 
-        x = F.leaky_relu(self.conv5(x))
+        x = F.relu(self.conv5(x))
         x = self.norm5(x)
         x = F.relu(self.conv6(x))
         x = self.norm6(x)
