@@ -27,8 +27,10 @@ args = parser.parse_args()
 state_dict = torch.load(args.model)
 #model = Net()
 #model = GoogLeNet()
+
 #model = SpatialNet()
-model = ConvNet()
+model = SpatialNet()
+#model = ConvNet()
 #model = model.cuda()
 
 model.load_state_dict(state_dict)

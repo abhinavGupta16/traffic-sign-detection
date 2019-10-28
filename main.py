@@ -39,22 +39,24 @@ args = parser.parse_args()
 #device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 ### Data Initialization and Loading
-from data import initialize_data, data_transforms, train_transforms, data_jitter_hue,data_jitter_brightness,data_jitter_saturation,data_jitter_contrast,data_rotate,data_hvflip,data_shear,data_translate,data_center,data_hflip,data_vflip # data.py in the same folder
+from data import initialize_data, data_transforms, train_transforms, jitter_hue,jitter_brightness,jitter_saturation,jitter_contrast,rotate,hvflip,shear,translate,center,hflip,vflip,grayscale # data.py in the same folder
 initialize_data(args.data) # extracts the zip files, makes a validation set
 
 train_loader = torch.utils.data.DataLoader(
    torch.utils.data.ConcatDataset([datasets.ImageFolder(args.data + '/train_images',
    transform=data_transforms),
    datasets.ImageFolder(args.data + '/train_images',
-   transform=data_jitter_brightness),datasets.ImageFolder(args.data + '/train_images',
-   transform=data_jitter_hue),datasets.ImageFolder(args.data + '/train_images',
-   transform=data_jitter_contrast),datasets.ImageFolder(args.data + '/train_images',
-   transform=data_jitter_saturation),datasets.ImageFolder(args.data + '/train_images',
-   transform=data_translate),datasets.ImageFolder(args.data + '/train_images',
-   transform=data_rotate),datasets.ImageFolder(args.data + '/train_images',
-   transform=data_hvflip),datasets.ImageFolder(args.data + '/train_images',
-   transform=data_center),datasets.ImageFolder(args.data + '/train_images',
-   transform=data_shear)]), batch_size=args.batch_size, shuffle=True, num_workers=4, pin_memory=True)
+   transform=grayscale),datasets.ImageFolder(args.data + '/train_images',
+   transform=jitter_brightness),datasets.ImageFolder(args.data + '/train_images',
+   transform=jitter_saturation),datasets.ImageFolder(args.data + '/train_images',
+   transform=jitter_hue),datasets.ImageFolder(args.data + '/train_images',
+   transform=jitter_contrast),datasets.ImageFolder(args.data + '/train_images',
+   transform=translate),datasets.ImageFolder(args.data + '/train_images',
+   transform=center),datasets.ImageFolder(args.data + '/train_images',
+   transform=grayscale),datasets.ImageFolder(args.data + '/train_images',
+   transform=rotate),datasets.ImageFolder(args.data + '/train_images',
+   transform=hvflip),datasets.ImageFolder(args.data + '/train_images',
+   transform=shear)]), batch_size=args.batch_size, shuffle=True, num_workers=4, pin_memory=True)
 
 #train_loader = torch.utils.data.DataLoader(
 #    datasets.ImageFolder(args.data + '/train_images',
@@ -71,12 +73,12 @@ print(args.lr)
 ### Neural Network and Optimizer
 # We define neural net in model.py so that it can be reused by the evaluate.py script
 
-#from model import Net, SpatialNet
+from model import Net, SpatialNet
 #model = Net()
-#model = SpatialNet()
+model = SpatialNet()
 
-from conv_net import ConvNet
-model = ConvNet()
+# from conv_net import ConvNet
+# model = ConvNet()
 
 #from model import VGG, VGG19
 #model = VGG(VGG19)
