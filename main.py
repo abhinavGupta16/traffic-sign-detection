@@ -71,12 +71,12 @@ print(args.lr)
 ### Neural Network and Optimizer
 # We define neural net in model.py so that it can be reused by the evaluate.py script
 
-#from model import Net, SpatialNet
+from model import Net, SpatialNet
 #model = Net()
-#model = SpatialNet()
+model = SpatialNet()
 
-from conv_net import ConvNet
-model = ConvNet()
+# from conv_net import ConvNet
+# model = ConvNet()
 
 #from model import VGG, VGG19
 #model = VGG(VGG19)
