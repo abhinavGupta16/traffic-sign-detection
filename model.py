@@ -150,10 +150,10 @@ class SpatialNet(nn.Module):
         self.conv1 = nn.Conv2d(3, 100, kernel_size=5)
         self.norm1 = nn.BatchNorm2d(100)
         self.conv2 = nn.Conv2d(100, 150, kernel_size=3)
-        self.conv2 = nn.Conv2d(150, 150, padding=(1,1), kernel_size=3)
+        self.conv3 = nn.Conv2d(150, 150, padding=(1,1), kernel_size=3)
         self.norm2 = nn.BatchNorm2d(150)
-        self.conv3 = nn.Conv2d(150, 250, kernel_size=3)
-        self.conv3 = nn.Conv2d(250, 250, padding=(1,1), kernel_size=3)
+        self.conv4 = nn.Conv2d(150, 250, kernel_size=3)
+        self.conv5 = nn.Conv2d(250, 250, padding=(1,1), kernel_size=3)
         self.norm3 = nn.BatchNorm2d(250)
         self.dropout = nn.Dropout2d()
         self.fc1 = nn.Linear(250*2*2, 350)
@@ -202,12 +202,14 @@ class SpatialNet(nn.Module):
 
         # CNN Layer
         x = F.relu(self.conv2(x))
+        x = F.relu(self.conv3(x))
         x = F.max_pool2d(x,2)
         x = self.norm2(x)
         x = self.dropout(x)
-        
+
         #CNN Layer
-        x = F.relu(self.conv3(x))
+        x = F.relu(self.conv4(x))
+        x = F.relu(self.conv5(x))
         x = F.max_pool2d(x,2)
         x = self.norm3(x)
         x = self.dropout(x)
