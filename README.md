@@ -1,5 +1,8 @@
 ## NYU-CV-Fall-2018
 
+## Result
+Finished 8th in a class of 105 students, with an accuracy of 0.99730 on the unknown test data.
+
 ### Assignment 2: Traffic sign competition
 
 #### Requirements
